@@ -98,20 +98,37 @@ namespace testNezha {
         }
     }
 
-    //% blockId=test_reset_with_speed
     //% block="reset motor $motor to zero at speed $speed"
     //% motor.defl=MotorPostion.M1
     //% speed.min=1 speed.max=100 speed.defl=100
     //% weight=100
     export function resetWithSpeed(motor: MotorPostion, speed: number): void {
-        if (speed < 1) {
-            speed = 1;
-        } else if (speed > 100) {
-            speed = 100;
-        }
+        if (speed < 1) speed = 1;
+        if (speed > 100) speed = 100;
         
+        // 先设置速度
         setServoSpeed(speed);
-        moveToAbsAngle(motor, ServoMotionMode.ShortPath, 0, DelayMode.AutoDelayStatus);
+        basic.pause(50);  // 等待速度设置生效
+        
+        // 使用原始归零命令
+        let buf = pins.createBuffer(8);
+        buf[0] = 0xFF;
+        buf[1] = 0xF9;
+        buf[2] = motor;
+        buf[3] = 0x00;
+        buf[4] = 0x1D;  // 原始reset命令
+        buf[5] = 0x00;
+        buf[6] = 0xF5;
+        buf[7] = 0x00;
+        pins.i2cWriteBuffer(i2cAddr, buf);
+        
         relativeAngularArr[motor - 1] = 0;
+        
+        // 根据速度计算延迟时间
+        let delayTime = 1000;  // 默认1秒
+        if (speed > 0) {
+            delayTime = Math.floor(1000 / (speed / 100));  // 速度越快，延迟越短
+        }
+        basic.pause(delayTime);
     }
 }
