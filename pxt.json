@@ -1,0 +1,23 @@
+{
+    "name": "pxt-nezha2-MOD",
+    "version": "0.0.1",
+    "description": "Test extension for resetWithSpeed function",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts"
+    ],
+    "testFiles": [],
+    "public": true,
+    "targetVersions": {
+        "target": "7.0.51",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj"
+}
