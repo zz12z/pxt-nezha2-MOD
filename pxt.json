@@ -1,7 +1,7 @@
 {
     "name": "pxt-nezha2-MOD",
-    "version": "0.0.1",
-    "description": "Test extension for resetWithSpeed function",
+    "version": "0.0.3",
+    "description": "Test extension for resetWithSpeed function with original reset command",
     "license": "MIT",
     "dependencies": {
         "core": "*"
